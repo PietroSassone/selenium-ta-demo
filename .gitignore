@@ -1,0 +1,12 @@
+# IDEA files #
+######################
+.idea
+atlassian-ide-plugin.xml
+**/*.iml
+
+# build files #
+######################
+build.properties
+tmp
+target
+work
