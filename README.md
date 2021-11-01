@@ -24,9 +24,10 @@ Plus saving useful visual test reports.
 - Builder
 - Page Object Pattern with page factory
 - Factory:
-    
-    1.WebDriverFactory pattern
-    1.Custom Selenium element locator factory to find web elements even after interactions/changes on a website
+
+    - WebDriverFactory pattern
+
+    - Custom Selenium element locator factory to find web elements even after interactions/changes on a website
 
 **Some aspects of UI testing being demonstrated:**
 - Using Selenium Data tables
@@ -51,3 +52,23 @@ The screenshot is added to the test reporting.
 **Launching the tests**
 Open a terminal and type:
 mvn clean verify
+
+Supported arguments:
+| argument name     | supported values             | default value | description                                                |
+| ----------------- | ---------------------------- | ------------- | ---------------------------------------------------------- |
+| browserName       | chrome, firefox, edge, opera | chrome        | tells the tests which browser to use for the tests         |
+| headless          | true, false                  | false         | sets whether the tests should run with GUI enabled         |
+| rerun.tests.count | any integer                  | 1             | sets how many times to try rerunning each failed test case |
+
+The framework supports Chrome, Firefox, Edge, Opera browsers for testing.
+The headless mode in selenium is not supported in Opera. Only the other 3 browsers.
+When trying to start the tests with Opera in headless mode, they'll launch in standard mode.
+With an extra log being shown about unsupported headless mode.
+
+Setting which tests should be run can be done via the -Dcucumber.filter.tags option.
+
+Example command to run the tests with MS Edge Driver in headless mode:
+mvn clean verify -DbrowserName=edge -Dheadless=true
+
+Example command to run the tests with default browser settings (chrome) for only the Web Tablse page:
+mvn clean verify -Dcucumber.filter.tags=@WebTablesPage
