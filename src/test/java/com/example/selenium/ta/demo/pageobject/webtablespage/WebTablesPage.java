@@ -1,6 +1,7 @@
-package com.example.selenium.ta.demo.pageobject;
+package com.example.selenium.ta.demo.pageobject.webtablespage;
 
 import com.example.selenium.ta.demo.factory.SeleniumFactory;
+import com.example.selenium.ta.demo.pageobject.ParentPageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
@@ -47,6 +48,15 @@ public class WebTablesPage extends ParentPageObject {
     @FindBy(xpath = "//div[@class='rt-tr-group']/div[div[1][text()]]")
     private List<WebElement> filledTableRows;
 
+    @FindBy(xpath = "//div[@class='action-buttons']/span[2]")
+    private List<WebElement> deleteButtons;
+
+    @FindBy(className = "pagination-bottom")
+    private WebElement paginationBar;
+
+    @FindBy(className = "rt-noData")
+    private WebElement noDataTextElement;
+
     private final Map<String, WebElement> inputFieldsMap = Map.of(
             FIRST_NAME, firstNameInput,
             LAST_NAME, lastNameInput,
@@ -65,9 +75,7 @@ public class WebTablesPage extends ParentPageObject {
     }
 
     public void clickOnAddNewRecordButton() {
-        waitForElementToBeClickable(addNewRecordButton);
-        addNewRecordButton.click();
-        waitForPageToLoad();
+        click(addNewRecordButton);
     }
 
     public WebElement getInputFieldByName(final String fieldName) {
@@ -75,12 +83,26 @@ public class WebTablesPage extends ParentPageObject {
     }
 
     public void clickOnSubmitButton() {
-        waitForElementToBeClickable(submitButton);
-        submitButton.click();
-        waitForPageToLoad();
+        click(submitButton);
     }
 
     public List<WebElement> getWebTableRows() {
         return filledTableRows;
+    }
+
+    public List<WebElement> getDeleteButtons() {
+        return deleteButtons;
+    }
+
+    public WebTablePagination getWebTablePagination() {
+        return new WebTablePagination(getSeleniumFactory(), paginationBar);
+    }
+
+    public WebElement getNoDataTextElement() {
+        return noDataTextElement;
+    }
+
+    public boolean isNoDataTextElementVisible() {
+        return noDataTextElement.isDisplayed();
     }
 }

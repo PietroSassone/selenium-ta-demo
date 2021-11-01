@@ -1,4 +1,4 @@
-package com.example.selenium.ta.demo.pageobject;
+package com.example.selenium.ta.demo.pageobject.webtablespage;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

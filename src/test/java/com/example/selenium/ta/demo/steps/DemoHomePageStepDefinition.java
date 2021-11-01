@@ -1,7 +1,7 @@
 package com.example.selenium.ta.demo.steps;
 
 import com.example.selenium.ta.demo.config.UITestSpringConfig;
-import com.example.selenium.ta.demo.pageobject.DemoHomePage;
+import com.example.selenium.ta.demo.pageobject.hompage.DemoHomePage;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class DemoHomePageStepDefinition {
 
     private static final String EXPECTED_FOOTER_TEXT = "© 2013-2020 TOOLSQA.COM | ALL RIGHTS RESERVED.";
-    private static final String EXPECTED_HEADER_LINK = "https://demoqa.com";
+    private static final String EXPECTED_HEADER_LINK = "https://www.demoqa.com/";
     private static final String EXPECTED_JOIN_LINK = "https://www.toolsqa.com/selenium-training/";
     private static final String HEADER = "header";
 
@@ -51,7 +51,7 @@ public class DemoHomePageStepDefinition {
             actualLink = homePage.getHeaderLink();
             expectedLink = EXPECTED_HEADER_LINK;
         } else {
-            actualLink = homePage.getJoinLink().getText();
+            actualLink = homePage.getJoinLink();
             expectedLink = EXPECTED_JOIN_LINK;
         }
         assertThat(String.format("The %s link should be %s on the homepage", linkName, expectedLink), actualLink, equalTo(expectedLink));
@@ -83,5 +83,4 @@ public class DemoHomePageStepDefinition {
         assertThat("The footer should be visible on the homepage!", homePage.isFooterVisible(), is(true));
         assertThat("The footer text should be be correct!", homePage.getFooter().getText(), equalTo(EXPECTED_FOOTER_TEXT));
     }
-
 }

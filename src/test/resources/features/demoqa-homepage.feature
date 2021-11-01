@@ -7,9 +7,9 @@ Feature: DemoQa home page test scenarios
   Scenario: Simple test to verify that all UI elements are visible and correct on the home page
     Given the demo qa homepage is opened
     Then the header image should be visible
-#      And the header link should be correct
+      And the header link should be correct
       And the certification training image should be visible
-#      And the join now link should be correct
+      And the join now link should be correct
       And there should be 6 category widgets on the page
       And the category widgets should be the following in order:
         | Elements                |

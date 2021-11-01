@@ -1,6 +1,7 @@
-package com.example.selenium.ta.demo.pageobject;
+package com.example.selenium.ta.demo.pageobject.hompage;
 
 import com.example.selenium.ta.demo.factory.SeleniumFactory;
+import com.example.selenium.ta.demo.pageobject.ParentPageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ public class DemoHomePage extends ParentPageObject {
     @FindBy(css = "header img")
     private WebElement headerImage;
 
-    @FindBy(css = "header")
+    @FindBy(css = "#app > header > a")
     private WebElement header;
 
     @FindBy(css = ".home-banner a")
@@ -43,11 +44,11 @@ public class DemoHomePage extends ParentPageObject {
     }
 
     public String getHeaderLink() {
-        return header.getAttribute("a");
+        return getReferenceOfElement(header);
     }
 
-    public WebElement getJoinLink() {
-        return joinLink;
+    public String getJoinLink() {
+        return getReferenceOfElement(joinLink);
     }
 
     public boolean isCertificationTrainingImageVisible() {

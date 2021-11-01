@@ -16,8 +16,7 @@
 
         <webdriver.manager.version>5.0.3</webdriver.manager.version>
         <logback.version>1.2.3</logback.version>
-        <selenium.version>3.141.59</selenium.version>
-        <selenium.edge.version>3.141.0</selenium.edge.version>
+        <selenium.version>4.0.0</selenium.version>
         <spring.version>5.3.10</spring.version>
         <cucumber.version>6.11.0</cucumber.version>
         <cucumber.jvm.deps.version>1.0.6</cucumber.jvm.deps.version>
@@ -192,11 +191,6 @@
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>${webdriver.manager.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.edge</groupId>
-            <artifactId>msedge-selenium-tools-java</artifactId>
-            <version>${selenium.edge.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
