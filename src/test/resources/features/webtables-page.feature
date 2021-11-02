@@ -16,6 +16,7 @@ Feature: DemoQa Web Tables page test scenarios
     Then there should be 4 rows in the table on the current page
       And 1 new row should be present with the prepared values
 
+  @OperaNotSupported
   Scenario: Adding the same item multiple times and checking pagination of the Web Table on the page
     Given the display results per page dropdown is set to 5 rows
       And the total number of pages in the table should be 1
@@ -37,6 +38,7 @@ Feature: DemoQa Web Tables page test scenarios
       And the next page pagination button should be disabled
 
   Rule: The current page displayed can be changed by setting the page index input. But it cannot jump to a bigger page index than the total page number.
+    @OperaNotSupported
     Scenario Outline: Modifying the page index of the pagination of the Web Table on the page
     Given the display results per page dropdown is set to <rowsPerPage> rows
       And the total number of pages in the table should be 1

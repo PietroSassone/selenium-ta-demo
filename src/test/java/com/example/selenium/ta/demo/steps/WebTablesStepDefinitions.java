@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +24,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.example.selenium.ta.demo.config.UITestSpringConfig.PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS;
+import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.openqa.selenium.Keys.ENTER;
@@ -186,9 +191,14 @@ public class WebTablesStepDefinitions {
 
     @Then("^the total number of pages in the table should be (\\d)$")
     public void theTotalNumberOfPagesInTheTableShouldBe(final int expectedNumberOfPages) {
+        await().atMost(Duration.ofSeconds(PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS))
+                .until(() -> webTablesPage.getWebTablePagination().getTotalNumberOfTablePages().getText(), not(is(emptyOrNullString())));
+
+        final WebElement totalNumberOfPages = webTablesPage.getWebTablePagination().getTotalNumberOfTablePages();
+        webTablesPage.moveToElement(totalNumberOfPages);
         assertThat(
                 String.format("There should be exactly %s pages in the table.", expectedNumberOfPages),
-                webTablesPage.getWebTablePagination().getTotalNumberOfTablePages().getText(),
+                totalNumberOfPages.getText(),
                 equalTo(String.valueOf(expectedNumberOfPages))
         );
     }
