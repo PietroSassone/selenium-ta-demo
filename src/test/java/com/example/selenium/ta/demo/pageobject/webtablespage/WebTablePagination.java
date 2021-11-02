@@ -27,14 +27,6 @@ public class WebTablePagination extends ParentPageObject {
         super(seleniumFactory, parentElement);
     }
 
-    public void clickOnResultsPerPageDropDownElement() {
-        resultsPerPageDropdown.click();
-    }
-
-    public WebElement getResultsPerPageDropDownElement() {
-        return resultsPerPageDropdown;
-    }
-
     public Select getResultsPerPageDropDownSelect() {
         return new Select(resultsPerPageDropdown);
     }
