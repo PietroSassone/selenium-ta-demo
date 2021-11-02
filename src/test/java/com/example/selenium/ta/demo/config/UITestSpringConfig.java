@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("com.example.selenium.ta.demo")
 public class UITestSpringConfig {
 
-    public static final long PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS = 15;
+    public static final long PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS = 5;
 
     @Bean(destroyMethod = "shutDownWebDriver")
     public SeleniumFactory seleniumFactory() {

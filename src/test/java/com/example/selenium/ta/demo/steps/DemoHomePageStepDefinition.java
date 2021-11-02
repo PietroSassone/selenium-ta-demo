@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class DemoHomePageStepDefinition {
 
     private static final String EXPECTED_FOOTER_TEXT = "© 2013-2020 TOOLSQA.COM | ALL RIGHTS RESERVED.";
-    private static final String EXPECTED_HEADER_LINK = "https://www.demoqa.com/";
+    private static final String EXPECTED_HEADER_LINK = "https://demoqa.com/";
     private static final String EXPECTED_JOIN_LINK = "https://www.toolsqa.com/selenium-training/";
     private static final String HEADER = "header";
 

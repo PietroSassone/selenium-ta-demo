@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class DemoHomePage extends ParentPageObject {
 
-    private static final String DEMO_HOME_PAGE_URL = "https://www.demoqa.com/";
+    private static final String DEMO_HOME_PAGE_URL = "https://demoqa.com/";
 
     @FindBy(css = "header img")
     private WebElement headerImage;

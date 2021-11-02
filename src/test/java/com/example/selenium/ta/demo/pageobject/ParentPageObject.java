@@ -5,11 +5,13 @@ import com.example.selenium.ta.demo.factory.SeleniumFactory;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.NoSuchElementException;
 
 import static com.example.selenium.ta.demo.config.UITestSpringConfig.PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS;
@@ -39,6 +41,10 @@ public class ParentPageObject {
         return seleniumFactory;
     }
 
+    public void moveToElement(final WebElement webElement) {
+        new Actions(driver).moveToElement(webElement).build().perform();
+    }
+
     protected void navigateToUrl(final String url) {
         this.driver.get(url);
         waitForPageToLoad();
@@ -55,7 +61,7 @@ public class ParentPageObject {
     }
 
     private WebDriverWait getWebDriverWait() {
-        return new WebDriverWait(this.driver, PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS);
+        return new WebDriverWait(this.driver, Duration.ofSeconds(PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS));
     }
 
     private void waitForElementToBeClickable(final WebElement webElement) {
@@ -67,7 +73,7 @@ public class ParentPageObject {
     }
 
     private void waitForPageToLoad() {
-        new WebDriverWait(this.driver, PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS).until(
+        new WebDriverWait(this.driver, Duration.ofSeconds(PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS)).until(
                 driver -> valueOf(((JavascriptExecutor) driver).executeScript(RETURN_DOCUMENT_READY_STATE)).equals(COMPLETE)
         );
     }
