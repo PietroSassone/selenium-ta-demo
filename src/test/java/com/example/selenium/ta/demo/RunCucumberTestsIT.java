@@ -1,11 +1,12 @@
 package com.example.selenium.ta.demo;
 
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+
 import com.example.selenium.ta.demo.config.UITestSpringConfig;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import io.cucumber.spring.CucumberContextConfiguration;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(

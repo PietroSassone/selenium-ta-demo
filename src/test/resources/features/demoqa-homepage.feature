@@ -5,7 +5,7 @@ Feature: DemoQa home page test scenarios
   To demonstrate selenium usage
 
   Scenario: Simple test to verify that all UI elements are visible and correct on the home page
-    Given the demo qa homepage is opened
+    Given the demo QA homepage is opened
     Then the header image should be visible
       And the header link should be correct
       And the certification training image should be visible

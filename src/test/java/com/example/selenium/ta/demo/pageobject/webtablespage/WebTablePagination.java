@@ -1,10 +1,11 @@
 package com.example.selenium.ta.demo.pageobject.webtablespage;
 
-import com.example.selenium.ta.demo.factory.SeleniumFactory;
-import com.example.selenium.ta.demo.pageobject.ParentPageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+
+import com.example.selenium.ta.demo.factory.SeleniumFactory;
+import com.example.selenium.ta.demo.pageobject.ParentPageObject;
 
 public class WebTablePagination extends ParentPageObject {
 

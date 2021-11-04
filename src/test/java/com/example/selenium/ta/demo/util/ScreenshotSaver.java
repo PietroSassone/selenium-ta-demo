@@ -1,18 +1,23 @@
 package com.example.selenium.ta.demo.util;
 
-import io.cucumber.java.Scenario;
+import static org.openqa.selenium.OutputType.FILE;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import javax.imageio.ImageIO;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
+import io.cucumber.java.Scenario;
 
-import static org.openqa.selenium.OutputType.FILE;
-
+/**
+ * Utility class to capture screenshots from the automated browsers and add them to the test report.
+ */
 @Component
 public class ScreenshotSaver {
 
