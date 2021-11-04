@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is a logger for webdriver related events.
+ * Custom logger for webdriver related events.
  */
 public class WebDriverLogger implements WebDriverEventListener {
 

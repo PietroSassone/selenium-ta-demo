@@ -1,24 +1,25 @@
 package com.example.selenium.ta.demo.steps;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import java.util.List;
+import java.util.stream.IntStream;
+
+import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+
 import com.example.selenium.ta.demo.config.UITestSpringConfig;
 import com.example.selenium.ta.demo.pageobject.hompage.DemoHomePage;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import org.openqa.selenium.WebElement;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-
-import java.util.List;
-import java.util.stream.IntStream;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 @ContextConfiguration(classes = UITestSpringConfig.class)
-public class DemoHomePageStepDefinition {
+public class DemoHomePageStepDefinitions {
 
     private static final String EXPECTED_FOOTER_TEXT = "© 2013-2020 TOOLSQA.COM | ALL RIGHTS RESERVED.";
     private static final String EXPECTED_HEADER_LINK = "https://demoqa.com/";
@@ -28,7 +29,7 @@ public class DemoHomePageStepDefinition {
     @Autowired
     private DemoHomePage homePage;
 
-    @Given("^the demo qa homepage is opened$")
+    @Given("^the demo QA homepage is opened$")
     public void theDemoQaHomePageIsOpened() {
         homePage.loadUpHomePage();
     }

@@ -1,13 +1,14 @@
 package com.example.selenium.ta.demo.pageobject.webtablespage;
 
-import com.example.selenium.ta.demo.factory.SeleniumFactory;
-import com.example.selenium.ta.demo.pageobject.ParentPageObject;
+import java.util.List;
+import java.util.Map;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
+import com.example.selenium.ta.demo.factory.SeleniumFactory;
+import com.example.selenium.ta.demo.pageobject.ParentPageObject;
 
 @Component
 public class WebTablesPage extends ParentPageObject {
@@ -66,7 +67,7 @@ public class WebTablesPage extends ParentPageObject {
             DEPARTMENT, departmentInput
     );
 
-    public WebTablesPage(SeleniumFactory seleniumFactory) {
+    public WebTablesPage(final SeleniumFactory seleniumFactory) {
         super(seleniumFactory);
     }
 

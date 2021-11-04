@@ -1,7 +1,14 @@
 package com.example.selenium.ta.demo.factory;
 
-import com.example.selenium.ta.demo.util.WebDriverLogger;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import static com.example.selenium.ta.demo.config.UITestSpringConfig.PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS;
+
+import java.time.Duration;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.Callable;
+
+import javax.annotation.PostConstruct;
+
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,13 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.annotation.PostConstruct;
-import java.time.Duration;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.Callable;
-
-import static com.example.selenium.ta.demo.config.UITestSpringConfig.PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS;
+import com.example.selenium.ta.demo.util.WebDriverLogger;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 /**
  * Factory class to set up and close selenium webdriver.
@@ -67,7 +69,7 @@ public class SeleniumFactory {
             try {
                 webDriver.quit();
             } catch (Exception e) {
-                LOGGER.info("Browser closed already, did not need to quit. Exception: {}", e.getMessage());
+                LOGGER.info("Browser already closed, did not need to quit. Exception: {}", e.getMessage());
             }
 
             webDriver = null;

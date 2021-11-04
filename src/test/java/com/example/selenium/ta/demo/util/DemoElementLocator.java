@@ -1,14 +1,20 @@
-package com.example.selenium.ta.demo.factory;
+package com.example.selenium.ta.demo.util;
+
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Objects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.Annotations;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Objects;
+import com.example.selenium.ta.demo.factory.SeleniumFactory;
 
+/**
+ * Utility class to create a custom implementation of the Selenium ElementLocator.
+ * Used to find and cache webelements even after changes on the page.
+ */
 public class DemoElementLocator implements ElementLocator {
 
     private final SeleniumFactory seleniumFactory;

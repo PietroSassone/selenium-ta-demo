@@ -1,12 +1,13 @@
 package com.example.selenium.ta.demo.pageobject.hompage;
 
-import com.example.selenium.ta.demo.factory.SeleniumFactory;
-import com.example.selenium.ta.demo.pageobject.ParentPageObject;
+import java.util.List;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.example.selenium.ta.demo.factory.SeleniumFactory;
+import com.example.selenium.ta.demo.pageobject.ParentPageObject;
 
 @Component
 public class DemoHomePage extends ParentPageObject {
@@ -31,7 +32,7 @@ public class DemoHomePage extends ParentPageObject {
     @FindBy(css = "footer")
     private WebElement footer;
 
-    public DemoHomePage(SeleniumFactory seleniumFactory) {
+    public DemoHomePage(final SeleniumFactory seleniumFactory) {
         super(seleniumFactory);
     }
 

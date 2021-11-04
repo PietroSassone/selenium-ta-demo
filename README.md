@@ -2,9 +2,12 @@
 
 **Test automation UI framework demo project.**
 
-Simple UI test automation in Java 11, demonstrating how to implement a scalable, flexible framework for running UI tests in parallel.
+UI test automation in Java 11, demonstrating how to implement a scalable, flexible framework for running UI tests in parallel.
 Supporting different browsers.
-Plus saving useful visual test reports.
+Plus saving useful visual test reports and web HTTP traffic records.
+
+*Note:* The test cases implemented are not extensive. Just a selection of all possible scenarios.
+For a small demo.
 
 **1. Technologies used**
 - Selenium 4 for UI tests
@@ -20,6 +23,7 @@ Plus saving useful visual test reports.
 - Maven Checkstyle for enforcing coding conventions
 - Cucable plugin for cucumber parallel runner generation
 - Cluecumber plugin for visualization of test reports
+- BrowserMob for capturing web traffic
 
 **2. Design patterns used:**
 - Behaviour Specification
@@ -40,18 +44,28 @@ Plus saving useful visual test reports.
 - Deleting data from a web table
 - Interacting with pagination
 - Taking and saving screenshots
+- Capturing HTTP web traffic
 
 **4. Reporting and logging**
 - The framework saves reports and logs in the target folder after a test run finishes.
 1. Logs are saved in target/logs
 1. Cucumber reports are saved in target/cucumber-report
 1. More detailed Cluecumber reports are saved in target/test-report
+1. HTTP Archive is also saved in target/webtraffic for each scenario.
+    >Note*: on the tested demo site, there isn't any meaningful traffic to observe. 
+            So the created HAR files will not contain much interesting data.
+            This feature was merely added to the code to demonstrate how to do it.
 
 The reports create a visualized overview of the test results. Can be viewed in a browser.
 In case of failed scenarios a screenshot of the browser is saved.
 The screenshot is added to the test reporting.
 
-**Launching the tests**
+**5. Pre-requirements for running the tests**
+- Have Maven installed.
+- Have Java installed, at lest version 11.
+- Have the latest version of the browser installed that you want to run the tests with.
+
+**6. Launching the tests**
 Open a terminal and type:
     ```
     mvn clean verify

@@ -1,20 +1,15 @@
 package com.example.selenium.ta.demo.steps;
 
-import com.example.selenium.ta.demo.config.UITestSpringConfig;
-import com.example.selenium.ta.demo.pageobject.webtablespage.WebTablePagination;
-import com.example.selenium.ta.demo.pageobject.webtablespage.WebTableRow;
-import com.example.selenium.ta.demo.pageobject.webtablespage.WebTablesPage;
-import com.github.javafaker.Faker;
-import io.cucumber.java.After;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import static org.awaitility.Awaitility.await;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyOrNullString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.openqa.selenium.Keys.ENTER;
+
+import static com.example.selenium.ta.demo.config.UITestSpringConfig.PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -24,15 +19,22 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.example.selenium.ta.demo.config.UITestSpringConfig.PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS;
-import static org.awaitility.Awaitility.await;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.emptyOrNullString;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.openqa.selenium.Keys.ENTER;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+
+import com.example.selenium.ta.demo.config.UITestSpringConfig;
+import com.example.selenium.ta.demo.pageobject.webtablespage.WebTablePagination;
+import com.example.selenium.ta.demo.pageobject.webtablespage.WebTableRow;
+import com.example.selenium.ta.demo.pageobject.webtablespage.WebTablesPage;
+import com.github.javafaker.Faker;
+import io.cucumber.java.After;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 
 @ContextConfiguration(classes = UITestSpringConfig.class)
 public class WebTablesStepDefinitions {
