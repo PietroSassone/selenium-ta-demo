@@ -28,7 +28,6 @@ public class ParentPageObject {
 
     private static final String COMPLETE = "complete";
     private static final String RETURN_DOCUMENT_READY_STATE = "return document.readyState";
-    private static final String GOOGLE_CAPTCHA_IFRAME_XPATH = "//iframe[starts-with(@name, 'a-') and starts-with(@src, 'https://www.google.com/recaptcha')]";
 
     private final SeleniumFactory seleniumFactory;
     private final WebDriver driver;

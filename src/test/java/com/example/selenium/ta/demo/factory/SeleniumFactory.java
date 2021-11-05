@@ -1,11 +1,14 @@
 package com.example.selenium.ta.demo.factory;
 
+import static org.openqa.selenium.remote.CapabilityType.PROXY;
+
 import static com.example.selenium.ta.demo.config.UITestSpringConfig.PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS;
 
 import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 import javax.annotation.PostConstruct;
 
@@ -18,13 +21,18 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.opera.OperaOptions;
+import org.openqa.selenium.remote.AbstractDriverOptions;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.example.selenium.ta.demo.util.WebDriverLogger;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.client.ClientUtil;
 
 /**
  * Factory class to set up and close selenium webdriver.
@@ -36,6 +44,7 @@ public class SeleniumFactory {
     private static final String FIREFOX_BROWSER_NAME = "firefox";
     private static final String OPERA_BROWSER_NAME = "opera";
     private static final String EDGE_BROWSER_NAME = "edge";
+    private static final String IGNORE_CERTIFICATE_ERRORS = "--ignore-certificate-errors";
 
     @Value("${browserName:chrome}")
     private String browserName;
@@ -43,16 +52,24 @@ public class SeleniumFactory {
     @Value("${headless:false}")
     private Boolean headless;
 
+    @Autowired
+    private BrowserMobProxy browserMobProxy;
+
+    private final Function<AbstractDriverOptions<?>, Void> setProxyForWetTrafficRecording = options -> {
+        options.setCapability(PROXY, ClientUtil.createSeleniumProxy(browserMobProxy));
+        return null;
+    };
+
     private WebDriver webDriver;
     private Map<String, Callable<WebDriver>> webDriverSetupMethodsMap;
 
     @PostConstruct
     private void setUpWebDriverConfigMethods() {
         webDriverSetupMethodsMap = Map.of(
-                CHROME_BROWSER_NAME, this::setUpChromeDriver,
-                EDGE_BROWSER_NAME, this::setUpEdgeDriver,
-                FIREFOX_BROWSER_NAME, this::setUpFirefoxDriver,
-                OPERA_BROWSER_NAME, this::setUpOperaDriver
+            CHROME_BROWSER_NAME, this::setUpChromeDriver,
+            EDGE_BROWSER_NAME, this::setUpEdgeDriver,
+            FIREFOX_BROWSER_NAME, this::setUpFirefoxDriver,
+            OPERA_BROWSER_NAME, this::setUpOperaDriver
         );
     }
 
@@ -91,6 +108,7 @@ public class SeleniumFactory {
             webDriver.manage().window().setSize(new Dimension(1920, 1080));
 
             webDriver = new EventFiringWebDriver(webDriver).register(new WebDriverLogger());
+            LOGGER.info("Driver was successfully started for browser {}.", browserName);
         }
         return webDriver;
     }
@@ -101,8 +119,11 @@ public class SeleniumFactory {
         if (headless) {
             LOGGER.warn("Opera driver does not support headless mode.");
         }
+        OperaOptions operaOptions = new OperaOptions();
+        operaOptions.addArguments(IGNORE_CERTIFICATE_ERRORS);
+        setProxyForWetTrafficRecording.apply(operaOptions);
 
-        return new OperaDriver();
+        return new OperaDriver(operaOptions);
     }
 
     private WebDriver setUpEdgeDriver() {
@@ -113,21 +134,31 @@ public class SeleniumFactory {
             edgeOptions.addArguments("headless");
             edgeOptions.addArguments("disable-gpu");
         }
-        LOGGER.info("Edge Driver was successfully started.");
+        edgeOptions.addArguments(IGNORE_CERTIFICATE_ERRORS);
+
+        setProxyForWetTrafficRecording.apply(edgeOptions);
         return new EdgeDriver(edgeOptions);
     }
 
     private WebDriver setUpChromeDriver() {
         WebDriverManager.chromedriver().setup();
-        LOGGER.info("Chrome Driver was successfully started.");
 
-        return new ChromeDriver(new ChromeOptions().setHeadless(headless));
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setHeadless(headless);
+        chromeOptions.addArguments(IGNORE_CERTIFICATE_ERRORS);
+        setProxyForWetTrafficRecording.apply(chromeOptions);
+
+        return new ChromeDriver(chromeOptions);
     }
 
     private WebDriver setUpFirefoxDriver() {
         WebDriverManager.firefoxdriver().setup();
-        LOGGER.info("Firefox Driver was successfully started.");
 
-        return new FirefoxDriver(new FirefoxOptions().setHeadless(headless));
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
+        firefoxOptions.setHeadless(headless);
+        firefoxOptions.addArguments(IGNORE_CERTIFICATE_ERRORS);
+        setProxyForWetTrafficRecording.apply(firefoxOptions);
+
+        return new FirefoxDriver(firefoxOptions);
     }
 }

@@ -1,10 +1,7 @@
 package com.example.selenium.ta.demo.factory;
 
 import static net.lightbody.bmp.proxy.CaptureType.REQUEST_CONTENT;
-import static net.lightbody.bmp.proxy.CaptureType.REQUEST_COOKIES;
 import static net.lightbody.bmp.proxy.CaptureType.REQUEST_HEADERS;
-import static net.lightbody.bmp.proxy.CaptureType.RESPONSE_CONTENT;
-import static net.lightbody.bmp.proxy.CaptureType.RESPONSE_COOKIES;
 import static net.lightbody.bmp.proxy.CaptureType.RESPONSE_HEADERS;
 
 import org.slf4j.Logger;
@@ -34,12 +31,9 @@ public class BrowserMobProxyFactory {
     private void createNewBrowserMobProxy() {
         browserMobProxy = new BrowserMobProxyServer();
         browserMobProxy.enableHarCaptureTypes(
-                REQUEST_HEADERS,
-                REQUEST_CONTENT,
-                REQUEST_COOKIES,
-                RESPONSE_HEADERS,
-                RESPONSE_COOKIES,
-                RESPONSE_CONTENT
+            REQUEST_HEADERS,
+            REQUEST_CONTENT,
+            RESPONSE_HEADERS
         );
 
         browserMobProxy.start(0);
