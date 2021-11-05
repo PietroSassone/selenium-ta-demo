@@ -52,10 +52,7 @@ For a small demo.
 1. Cucumber reports are saved in target/cucumber-report
 1. More detailed Cluecumber reports are saved in target/test-report
 1. HTTP Archive is also saved in target/webtraffic for each scenario.
-    >Note*: on the tested demo site, there isn't any meaningful traffic to observe. 
-            So the created HAR files will not contain much interesting data.
-            This feature was merely added to the code to demonstrate how to do it.
-
+   
 The reports create a visualized overview of the test results. Can be viewed in a browser.
 In case of failed scenarios a screenshot of the browser is saved.
 The screenshot is added to the test reporting.
