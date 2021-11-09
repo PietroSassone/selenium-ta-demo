@@ -102,7 +102,7 @@ Both in headless and standard mode.
 - The format of a new config added must conform to the same format as the 3 JSON files already present.
 - Settings for devices can be copied from: [Chromium devtools devices](https://chromium.googlesource.com/chromium/src/+/167a7f5e03f8b9bd297d2663ec35affa0edd5076/third_party/WebKit/Source/devtools/front_end/emulated_devices/module.json)
 - After adding a config for a new device, the tests can be immediately run with this platform.
-- When supplying the 'DplatformToSet' param, the value must be the exact same as the SON file's name.
+- When supplying the '-DplatformToSet' param, the value must be the exact same as the JSON file's name.
 
 Setting which tests should be run based on cucumber tags can be done via the -Dcucumber.filter.tags option.
 
