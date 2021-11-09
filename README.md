@@ -104,12 +104,13 @@ Both in headless and standard mode.
 - After adding a config for a new device, the tests can be immediately run with this platform.
 - When supplying the '-DplatformToSet' param, the value must be the exact same as the JSON file's name.
 
-Setting which tests should be run based on cucumber tags can be done via the -Dcucumber.filter.tags option.
+Setting which tests should be run based on cucumber tags can be done via the ```-Dcucumber.filter.tags option```.
 
 Example command to run the tests with default browser settings (chrome) for only the Web Table page:
     ```
     mvn clean verify -Dcucumber.filter.tags=@WebTablesPage
     ```
+
 Example command to run the tests with MS Edge Driver in headless mode:
     ```
     mvn clean verify -DbrowserName=edge -Dheadless=true
