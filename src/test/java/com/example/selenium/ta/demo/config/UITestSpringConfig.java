@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.example.selenium.ta.demo.factory.BrowserMobProxyFactory;
 import com.example.selenium.ta.demo.factory.SeleniumFactory;
+import com.example.selenium.ta.demo.util.browserplatform.JsonDeserializerForPlatform;
+import com.example.selenium.ta.demo.util.browserplatform.Platform;
 import com.github.javafaker.Faker;
 import net.lightbody.bmp.BrowserMobProxy;
 
@@ -33,5 +35,10 @@ public class UITestSpringConfig {
     @Bean
     public BrowserMobProxy browserMobProxy() {
         return browserMobProxyFactory().getBrowserMobProxy();
+    }
+
+    @Bean
+    public JsonDeserializerForPlatform deserializerForPlatform() {
+        return new JsonDeserializerForPlatform(Platform.class);
     }
 }

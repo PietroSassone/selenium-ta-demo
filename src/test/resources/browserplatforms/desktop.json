@@ -1,0 +1,9 @@
+{
+  "title": "desktop",
+  "screen": {
+    "width": 1920,
+    "height": 1080,
+    "device-pixel-ratio": 1.0
+  },
+  "user-agent": "desktop"
+}

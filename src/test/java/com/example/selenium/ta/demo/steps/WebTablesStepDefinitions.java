@@ -83,11 +83,11 @@ public class WebTablesStepDefinitions {
     @When("^the prepared test data is added to the table (\\d+) times$")
     public void theAddNewRecordOrSubmitButtonIsClicked(final int numberOfTimesToAddRow) {
         IntStream.range(0, numberOfTimesToAddRow).forEach(
-                occurrenceIndex -> {
-                    theAddNewRecordOrSubmitButtonIsClicked(ADD_NEW_RECORD);
-                    allInputFieldsAreFilledWithValidInput();
-                    theAddNewRecordOrSubmitButtonIsClicked(SUBMIT);
-                }
+            occurrenceIndex -> {
+                theAddNewRecordOrSubmitButtonIsClicked(ADD_NEW_RECORD);
+                allInputFieldsAreFilledWithValidInput();
+                theAddNewRecordOrSubmitButtonIsClicked(SUBMIT);
+            }
         );
     }
 
@@ -123,7 +123,9 @@ public class WebTablesStepDefinitions {
 
     @When("^the delete button for item number (\\d+) is clicked$")
     public void theDeleteButtonForTheGivenItemIsClicked(final int numberOfRowToDelete) {
-        webTablesPage.getDeleteButtons().get(numberOfRowToDelete - 1).click();
+        final WebElement deleteButtonToClick = webTablesPage.getDeleteButtons().get(numberOfRowToDelete - 1);
+        webTablesPage.moveToElementWithJs(deleteButtonToClick);
+        deleteButtonToClick.click();
     }
 
     @When("^the display results per page dropdown is set to (5|10|20|25|50|100) rows$")
@@ -141,47 +143,47 @@ public class WebTablesStepDefinitions {
     @Then("^(\\d) new row(?:s)? should be present with the prepared values$")
     public void aNewRowShouldBePresentWithValues(final int expectedNumberOfNewRows) {
         final WebTableRow expectedRow = WebTableRow.builder()
-                .firstName(inputFieldsAndValuesMap.get(FIRST_NAME))
-                .lastName(inputFieldsAndValuesMap.get(LAST_NAME))
-                .age(Integer.parseInt(inputFieldsAndValuesMap.get(AGE)))
-                .email(inputFieldsAndValuesMap.get(EMAIL))
-                .salary(Integer.parseInt(inputFieldsAndValuesMap.get(SALARY)))
-                .department(inputFieldsAndValuesMap.get(DEPARTMENT))
-                .build();
+            .firstName(inputFieldsAndValuesMap.get(FIRST_NAME))
+            .lastName(inputFieldsAndValuesMap.get(LAST_NAME))
+            .age(Integer.parseInt(inputFieldsAndValuesMap.get(AGE)))
+            .email(inputFieldsAndValuesMap.get(EMAIL))
+            .salary(Integer.parseInt(inputFieldsAndValuesMap.get(SALARY)))
+            .department(inputFieldsAndValuesMap.get(DEPARTMENT))
+            .build();
 
         final List<WebTableRow> matchingWebTableRows = webTablesPage.getWebTableRows().stream()
-                .map(
-                        row -> WebTableRow.builder()
-                                .firstName(getNthChildDivText(1).apply(row))
-                                .lastName(getNthChildDivText(2).apply(row))
-                                .age(getNthChildDivNumber(3).apply(row))
-                                .email(getNthChildDivText(4).apply(row))
-                                .salary(getNthChildDivNumber(5).apply(row))
-                                .department(getNthChildDivText(6).apply(row))
-                                .build()
-                )
-                .peek(row -> LOGGER.info("Row found on the page: {}", row))
-                .filter(expectedRow::equals)
-                .collect(Collectors.toList());
+            .map(
+                row -> WebTableRow.builder()
+                    .firstName(getNthChildDivText(1).apply(row))
+                    .lastName(getNthChildDivText(2).apply(row))
+                    .age(getNthChildDivNumber(3).apply(row))
+                    .email(getNthChildDivText(4).apply(row))
+                    .salary(getNthChildDivNumber(5).apply(row))
+                    .department(getNthChildDivText(6).apply(row))
+                    .build()
+            )
+            .peek(row -> LOGGER.info("Row found on the page: {}", row))
+            .filter(expectedRow::equals)
+            .collect(Collectors.toList());
 
         assertThat(
-                String.format(
-                        "There should be %s rows matching the submitted input: %s, but the rows were: %s.",
-                        expectedNumberOfNewRows,
-                        expectedRow,
-                        matchingWebTableRows
-                ),
-                matchingWebTableRows,
-                hasSize(expectedNumberOfNewRows)
+            String.format(
+                "There should be %s rows matching the submitted input: %s, but the rows were: %s.",
+                expectedNumberOfNewRows,
+                expectedRow,
+                matchingWebTableRows
+            ),
+            matchingWebTableRows,
+            hasSize(expectedNumberOfNewRows)
         );
     }
 
     @Then("^there should be (\\d+) row(?:s)? in the table on the current page$")
     public void thereShouldBeGivenNumberOfRowsInTheTable(final int expectedNumberOfRows) {
         assertThat(
-                String.format("There should be exactly %s rows in the table.", expectedNumberOfRows),
-                webTablesPage.getWebTableRows(),
-                hasSize(expectedNumberOfRows)
+            String.format("There should be exactly %s rows in the table.", expectedNumberOfRows),
+            webTablesPage.getWebTableRows(),
+            hasSize(expectedNumberOfRows)
         );
     }
 
@@ -194,23 +196,23 @@ public class WebTablesStepDefinitions {
     @Then("^the total number of pages in the table should be (\\d)$")
     public void theTotalNumberOfPagesInTheTableShouldBe(final int expectedNumberOfPages) {
         await().atMost(Duration.ofSeconds(PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS))
-                .until(() -> webTablesPage.getWebTablePagination().getTotalNumberOfTablePages().getText(), not(is(emptyOrNullString())));
+            .until(() -> webTablesPage.getWebTablePagination().getTotalNumberOfTablePages().getText(), not(is(emptyOrNullString())));
 
         final WebElement totalNumberOfPages = webTablesPage.getWebTablePagination().getTotalNumberOfTablePages();
         webTablesPage.moveToElement(totalNumberOfPages);
         assertThat(
-                String.format("There should be exactly %s pages in the table.", expectedNumberOfPages),
-                totalNumberOfPages.getText(),
-                equalTo(String.valueOf(expectedNumberOfPages))
+            String.format("There should be exactly %s pages in the table.", expectedNumberOfPages),
+            totalNumberOfPages.getText(),
+            equalTo(String.valueOf(expectedNumberOfPages))
         );
     }
 
     @Then("^the page index input field of the pagination should contain (\\d)$")
     public void thePageIndexPaginationFieldShouldContain(final int expectedCurrentPageIndex) {
         assertThat(
-                String.format("The current page index should be %s.", expectedCurrentPageIndex),
-                webTablesPage.getWebTablePagination().getPageJumpField().getAttribute("value"),
-                equalTo(String.valueOf(expectedCurrentPageIndex))
+            String.format("The current page index should be %s.", expectedCurrentPageIndex),
+            webTablesPage.getWebTablePagination().getPageJumpField().getAttribute("value"),
+            equalTo(String.valueOf(expectedCurrentPageIndex))
         );
     }
 
@@ -219,13 +221,13 @@ public class WebTablesStepDefinitions {
         final WebTablePagination paginationBar = webTablesPage.getWebTablePagination();
 
         final WebElement paginationButton = PREVIOUS.equals(buttonName)
-                ? paginationBar.getPreviousPageButton()
-                : paginationBar.getNextPageButton();
+            ? paginationBar.getPreviousPageButton()
+            : paginationBar.getNextPageButton();
 
         assertThat(
-                String.format("The %s pagination button should be in %s state.", buttonName, expectedState),
-                paginationButton.isEnabled(),
-                equalTo(ENABLED.equals(expectedState))
+            String.format("The %s pagination button should be in %s state.", buttonName, expectedState),
+            paginationButton.isEnabled(),
+            equalTo(ENABLED.equals(expectedState))
         );
     }
 

@@ -29,6 +29,7 @@ public class WebTablePagination extends ParentPageObject {
     }
 
     public Select getResultsPerPageDropDownSelect() {
+        moveToElementWithJs(resultsPerPageDropdown);
         return new Select(resultsPerPageDropdown);
     }
 

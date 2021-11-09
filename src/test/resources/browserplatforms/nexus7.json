@@ -1,0 +1,9 @@
+{
+  "title": "Nexus 7",
+  "screen": {
+    "width": 960,
+    "height": 600,
+    "device-pixel-ratio": 2.0
+  },
+  "user-agent": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 7 Build/MOB30X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/%s Safari/537.36"
+}
