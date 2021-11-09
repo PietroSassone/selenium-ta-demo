@@ -24,6 +24,7 @@ For a small demo.
 - Cucable plugin for cucumber parallel runner generation
 - Cluecumber plugin for visualization of test reports
 - BrowserMob for capturing web traffic
+- Jackson for deserializing JSON configuration into a Java class
 
 **2. Design patterns used:**
 - Behaviour Specification
@@ -45,6 +46,7 @@ For a small demo.
 - Interacting with pagination
 - Taking and saving screenshots
 - Capturing HTTP web traffic
+- Emulating mobile browsers for testing
 
 **4. Reporting and logging**
 - The framework saves reports and logs in the target folder after a test run finishes.
@@ -73,13 +75,14 @@ Supported arguments:
 | browserName       | chrome, firefox, edge, opera | chrome        | tells the tests which browser to use for the tests         |
 | headless          | true, false                  | false         | sets whether the tests should run with GUI enabled         |
 | rerun.tests.count | any positive integer         | 1             | sets how many times to try rerunning each failed test case |
+| platformToSet     | desktop, iPhoneX, nexus7     | desktop       | sets the platform/device to be emulated by the webDriver   |
 
 The framework supports Chrome, Firefox, Edge, Opera browsers for testing.
 The headless mode in selenium is not supported in Opera. Only the other 3 browsers.
 When trying to start the tests with Opera in headless mode, they'll launch in standard mode.
 With an extra log being shown about unsupported headless mode.
 
-*Note:* 
+*Notes about OperaDriver:* 
     Some of the tests use selenium implementation interacting with the 'Select' class.
     This is not supported by OperaDriver.
     These tests should not be run with Opera.
@@ -91,14 +94,28 @@ With an extra log being shown about unsupported headless mode.
         mvn clean verify -POpera
         ```
 
-Setting which tests should be run can be done via the -Dcucumber.filter.tags option.
+*Notes about the mobile device emulation:* 
+- Tests can be run with the mobile emulation with all supported browsers.
+Both in headless and standard mode.
+- At the moment, desktop, iPhone X and Nexus 7 tablet views are added to the framework for demo purposes.
+- New platforms can be added by creating a JSON config file in the "test/resources/browserplatform" directory.
+- The format of a new config added must conform to the same format as the 3 JSON files already present.
+- Settings for devices can be copied from: [Chromium devtools devices](https://chromium.googlesource.com/chromium/src/+/167a7f5e03f8b9bd297d2663ec35affa0edd5076/third_party/WebKit/Source/devtools/front_end/emulated_devices/module.json)
+- After adding a config for a new device, the tests can be immediately run with this platform.
+- When supplying the 'DplatformToSet' param, the value must be the exact same as the SON file's name.
 
+Setting which tests should be run based on cucumber tags can be done via the -Dcucumber.filter.tags option.
+
+Example command to run the tests with default browser settings (chrome) for only the Web Table page:
+    ```
+    mvn clean verify -Dcucumber.filter.tags=@WebTablesPage
+    ```
 Example command to run the tests with MS Edge Driver in headless mode:
     ```
     mvn clean verify -DbrowserName=edge -Dheadless=true
     ```
 
-Example command to run the tests with default browser settings (chrome) for only the Web Table page:
+Example command to run the tests with MS Edge Driver while emulating the Nexus 7 tablet browser:
     ```
-    mvn clean verify -Dcucumber.filter.tags=@WebTablesPage
+    mvn clean verify -DbrowserName=edge -platformToSet=nexus7
     ```

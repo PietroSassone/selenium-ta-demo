@@ -28,6 +28,7 @@ public class ParentPageObject {
 
     private static final String COMPLETE = "complete";
     private static final String RETURN_DOCUMENT_READY_STATE = "return document.readyState";
+    private static final String SCROLL_INTO_VIEW_SCRIPT = "arguments[0].scrollIntoView();";
 
     private final SeleniumFactory seleniumFactory;
     private final WebDriver driver;
@@ -63,7 +64,16 @@ public class ParentPageObject {
      * Scrolling to a given web element.
      */
     public void moveToElement(final WebElement webElement) {
+        waitForElementToBeClickable(webElement);
         new Actions(driver).moveToElement(webElement).build().perform();
+    }
+
+    /**
+     * Scrolling to a given web element. In case of some web elements, the regular scrolling doesn't work.
+     * Especially useful for firefox.
+     */
+    public void moveToElementWithJs(final WebElement webElement) {
+        ((JavascriptExecutor) driver).executeScript(SCROLL_INTO_VIEW_SCRIPT, webElement);
     }
 
     protected void navigateToUrl(final String url) {
@@ -74,6 +84,7 @@ public class ParentPageObject {
 
     protected void click(final WebElement webElementToClick) {
         waitForElementToBeClickable(webElementToClick);
+        moveToElementWithJs(webElementToClick);
         webElementToClick.click();
         waitForPageToLoad();
     }

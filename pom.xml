@@ -39,7 +39,6 @@
         <parallel.fork.count>4</parallel.fork.count>
 
         <browserName>chrome</browserName>
-        <cucumber.filter.tags>'@HomePage and @WebTablesPage'</cucumber.filter.tags>
     </properties>
 
     <build>

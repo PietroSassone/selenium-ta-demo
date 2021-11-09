@@ -12,10 +12,10 @@ import java.util.function.Function;
 
 import javax.annotation.PostConstruct;
 
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chromium.ChromiumOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -30,6 +30,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.example.selenium.ta.demo.util.WebDriverLogger;
+import com.example.selenium.ta.demo.util.browserplatform.JsonDeserializerForPlatform;
+import com.example.selenium.ta.demo.util.browserplatform.Platform;
+import com.example.selenium.ta.demo.util.browserplatform.Screen;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.client.ClientUtil;
@@ -44,7 +47,16 @@ public class SeleniumFactory {
     private static final String FIREFOX_BROWSER_NAME = "firefox";
     private static final String OPERA_BROWSER_NAME = "opera";
     private static final String EDGE_BROWSER_NAME = "edge";
-    private static final String IGNORE_CERTIFICATE_ERRORS = "--ignore-certificate-errors";
+    private static final String IGNORE_CERTIFICATE_ERRORS_OPTION = "--ignore-certificate-errors";
+    private static final String WIDTH_DEVICE_METRIC = "width";
+    private static final String HEIGHT_DEVICE_METRIC = "height";
+    private static final String PIXEL_RATIO_DEVICE_METRIC = "pixelRatio";
+    private static final String DEVICE_METRICS_EMULATION_PARAM = "deviceMetrics";
+    private static final String USER_AGENT_EMULATION_PARAM = "userAgent";
+    private static final String MOBILE_EMULATION_OPTION_NAME = "mobileEmulation";
+    private static final String USER_AGENT_OPTION = "--user-agent=";
+    private static final String HEADLESS_OPTION = "headless";
+    private static final String DISABLE_GPU_OPTION = "disable-gpu";
 
     @Value("${browserName:chrome}")
     private String browserName;
@@ -52,14 +64,21 @@ public class SeleniumFactory {
     @Value("${headless:false}")
     private Boolean headless;
 
+    @Value("${platformToSet:desktop}")
+    private String platformToSet;
+
     @Autowired
     private BrowserMobProxy browserMobProxy;
+
+    @Autowired
+    private JsonDeserializerForPlatform deserializerForPlatform;
 
     private final Function<AbstractDriverOptions<?>, Void> setProxyForWetTrafficRecording = options -> {
         options.setCapability(PROXY, ClientUtil.createSeleniumProxy(browserMobProxy));
         return null;
     };
 
+    private Platform platform;
     private WebDriver webDriver;
     private Map<String, Callable<WebDriver>> webDriverSetupMethodsMap;
 
@@ -85,6 +104,7 @@ public class SeleniumFactory {
         if (Objects.nonNull(webDriver)) {
             try {
                 webDriver.quit();
+                webDriver.close();
             } catch (Exception e) {
                 LOGGER.info("Browser already closed, did not need to quit. Exception: {}", e.getMessage());
             }
@@ -96,6 +116,7 @@ public class SeleniumFactory {
 
     private WebDriver getWebDriver(final boolean shouldCreateNewDriver) {
         if (shouldCreateNewDriver && Objects.isNull(webDriver)) {
+            platform = deserializerForPlatform.readJsonFileToPlatform(platformToSet);
             try {
                 webDriver = webDriverSetupMethodsMap.get(browserName).call();
             } catch (NullPointerException nullPointerException) {
@@ -105,10 +126,10 @@ public class SeleniumFactory {
             }
 
             webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(PAGE_OR_ELEMENT_LOAD_WAIT_SECONDS));
-            webDriver.manage().window().setSize(new Dimension(1920, 1080));
+            webDriver.manage().window().setSize(platform.getBrowserWindowSize());
 
             webDriver = new EventFiringWebDriver(webDriver).register(new WebDriverLogger());
-            LOGGER.info("Driver was successfully started for browser {}.", browserName);
+            LOGGER.info("Driver was successfully started for browser {} and platform: {}, with user agent: {}.", browserName, platform.getPlatformName(), platform.getUserAgent());
         }
         return webDriver;
     }
@@ -120,8 +141,12 @@ public class SeleniumFactory {
             LOGGER.warn("Opera driver does not support headless mode.");
         }
         OperaOptions operaOptions = new OperaOptions();
-        operaOptions.addArguments(IGNORE_CERTIFICATE_ERRORS);
+        operaOptions.addArguments(IGNORE_CERTIFICATE_ERRORS_OPTION);
         setProxyForWetTrafficRecording.apply(operaOptions);
+
+        if (platform.isDevice()) {
+            operaOptions.addArguments(USER_AGENT_OPTION + platform.getUserAgent());
+        }
 
         return new OperaDriver(operaOptions);
     }
@@ -131,12 +156,17 @@ public class SeleniumFactory {
 
         EdgeOptions edgeOptions = new EdgeOptions();
         if (headless) {
-            edgeOptions.addArguments("headless");
-            edgeOptions.addArguments("disable-gpu");
+            edgeOptions.addArguments(HEADLESS_OPTION);
+            edgeOptions.addArguments(DISABLE_GPU_OPTION);
         }
-        edgeOptions.addArguments(IGNORE_CERTIFICATE_ERRORS);
+        edgeOptions.addArguments(IGNORE_CERTIFICATE_ERRORS_OPTION);
 
         setProxyForWetTrafficRecording.apply(edgeOptions);
+
+        if (platform.isDevice()) {
+            emulateMobileForChromiumBrowser(edgeOptions);
+        }
+
         return new EdgeDriver(edgeOptions);
     }
 
@@ -145,8 +175,12 @@ public class SeleniumFactory {
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setHeadless(headless);
-        chromeOptions.addArguments(IGNORE_CERTIFICATE_ERRORS);
+        chromeOptions.addArguments(IGNORE_CERTIFICATE_ERRORS_OPTION);
         setProxyForWetTrafficRecording.apply(chromeOptions);
+
+        if (platform.isDevice()) {
+            emulateMobileForChromiumBrowser(chromeOptions);
+        }
 
         return new ChromeDriver(chromeOptions);
     }
@@ -156,9 +190,31 @@ public class SeleniumFactory {
 
         FirefoxOptions firefoxOptions = new FirefoxOptions();
         firefoxOptions.setHeadless(headless);
-        firefoxOptions.addArguments(IGNORE_CERTIFICATE_ERRORS);
+        firefoxOptions.addArguments(IGNORE_CERTIFICATE_ERRORS_OPTION);
         setProxyForWetTrafficRecording.apply(firefoxOptions);
 
+        if (platform.isDevice()) {
+            firefoxOptions.addArguments(USER_AGENT_OPTION + platform.getUserAgent());
+        }
+
         return new FirefoxDriver(firefoxOptions);
+    }
+
+    private ChromiumOptions<?> emulateMobileForChromiumBrowser(final ChromiumOptions<?> chromiumOptions) {
+        final Screen screen = platform.getScreenSettings();
+
+        final Map<String, Object> deviceMetrics = Map.of(
+            WIDTH_DEVICE_METRIC, screen.getScreenWidth(),
+            HEIGHT_DEVICE_METRIC, screen.getScreenHeight(),
+            PIXEL_RATIO_DEVICE_METRIC, screen.getPixelRatio()
+        );
+
+        final Map<String, Object> mobileEmulation = Map.of(
+            DEVICE_METRICS_EMULATION_PARAM, deviceMetrics,
+            USER_AGENT_EMULATION_PARAM, platform.getUserAgent()
+        );
+
+        LOGGER.info("Setting mobile emulation for chromium based driver: {}", mobileEmulation);
+        return chromiumOptions.setExperimentalOption(MOBILE_EMULATION_OPTION_NAME, mobileEmulation);
     }
 }
