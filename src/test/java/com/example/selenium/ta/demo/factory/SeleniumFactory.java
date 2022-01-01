@@ -92,6 +92,10 @@ public class SeleniumFactory {
         );
     }
 
+    public Platform getPlatform() {
+        return platform;
+    }
+
     public WebDriver getExistingWebDriver() {
         return getWebDriver(false);
     }
@@ -100,11 +104,18 @@ public class SeleniumFactory {
         return getWebDriver(true);
     }
 
+    public WebDriver getNewWebDriverWithPlatform(final String platformNameToSet) {
+        shutDownWebDriver();
+        platformToSet = platformNameToSet;
+        return createAndGetWebDriver();
+    }
+
     public void shutDownWebDriver() {
         if (Objects.nonNull(webDriver)) {
             try {
                 webDriver.quit();
                 webDriver.close();
+                webDriver = null;
             } catch (Exception e) {
                 LOGGER.info("Browser already closed, did not need to quit. Exception: {}", e.getMessage());
             }
