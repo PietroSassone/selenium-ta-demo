@@ -57,7 +57,10 @@ Feature: DemoQa Web Tables page test scenarios
     | 5           | 8                  | 3                       | -1           | 1                 | 5                    |
     | 10          | 1                  | 1                       | 2            | 1                 | 4                    |
 
+  @platformChangeInScenario
   Scenario: Deleting an item from the Web Table on the page
+    Given the platform is switched to nexus7
+      And the web tables page is opened
     When the delete button for item number 1 is clicked
     Then there should be 2 rows in the table on the current page
 

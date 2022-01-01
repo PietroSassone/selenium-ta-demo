@@ -31,7 +31,7 @@ public class ParentPageObject {
     private static final String SCROLL_INTO_VIEW_SCRIPT = "arguments[0].scrollIntoView();";
 
     private final SeleniumFactory seleniumFactory;
-    private final WebDriver driver;
+    private WebDriver driver;
 
     @Autowired
     private WebTrafficRecorder webTrafficRecorder;
@@ -77,8 +77,9 @@ public class ParentPageObject {
     }
 
     protected void navigateToUrl(final String url) {
+        driver = seleniumFactory.getExistingWebDriver();
         webTrafficRecorder.startRecordingTraffic();
-        this.driver.get(url);
+        driver.get(url);
         waitForPageToLoad();
     }
 
