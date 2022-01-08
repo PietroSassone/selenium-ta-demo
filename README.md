@@ -48,8 +48,8 @@ For a small demo.
 - Capturing HTTP web traffic
 - Emulating mobile browsers for testing
 
-**4. Reporting and logging**
-- The framework saves reports and logs in the target folder after a test run finishes.
+**4. Reporting and logging**  
+The framework saves reports and logs in the target folder after a test run finishes.
 1. Logs are saved in target/logs
 1. Cucumber reports are saved in target/cucumber-report
 1. More detailed Cluecumber reports are saved in target/test-report
@@ -64,12 +64,13 @@ The screenshot is added to the test reporting.
 - Have Java installed, at lest version 11.
 - Have the latest version of the browser installed that you want to run the tests with.
 
-**6. Launching the tests**
+**6. Launching the tests**  
 Open a terminal and type:
     ```
     mvn clean verify
     ```
-Supported arguments:
+    
+Supported arguments:  
 | argument name     | supported values             | default value | description                                                |
 | ----------------- | ---------------------------- | ------------- | ---------------------------------------------------------- |
 | browserName       | chrome, firefox, edge, opera | chrome        | tells the tests which browser to use for the tests         |
@@ -82,7 +83,7 @@ The headless mode in selenium is not supported in Opera. Only the other 3 browse
 When trying to start the tests with Opera in headless mode, they'll launch in standard mode.
 With an extra log being shown about unsupported headless mode.
 
-*Notes about OperaDriver:* 
+*Notes about OperaDriver:*  
     Some of the tests use selenium implementation interacting with the 'Select' class.
     This is not supported by OperaDriver.
     These tests should not be run with Opera.
@@ -106,17 +107,17 @@ Both in headless and standard mode.
 
 Setting which tests should be run based on cucumber tags can be done via the ```-Dcucumber.filter.tags option```.
 
-Example command to run the tests with default browser settings (chrome) for only the Web Table page:
+Example command to run the tests with default browser settings (chrome) for only the Web Table page:  
     ```
     mvn clean verify -Dcucumber.filter.tags=@WebTablesPage
     ```
 
-Example command to run the tests with MS Edge Driver in headless mode:
+Example command to run the tests with MS Edge Driver in headless mode:  
     ```
     mvn clean verify -DbrowserName=edge -Dheadless=true
     ```
 
-Example command to run the tests with MS Edge Driver while emulating the Nexus 7 tablet browser:
+Example command to run the tests with MS Edge Driver while emulating the Nexus 7 tablet browser:  
     ```
     mvn clean verify -DbrowserName=edge -platformToSet=nexus7
     ```
