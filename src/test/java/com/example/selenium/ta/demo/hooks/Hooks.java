@@ -26,5 +26,7 @@ public class Hooks {
         if (scenario.isFailed()){
             screenshotSaver.addScreenshotToCucumberScenario(scenario, seleniumFactory.getExistingWebDriver());
         }
+
+        seleniumFactory.shutDownWebDriver();
     }
 }

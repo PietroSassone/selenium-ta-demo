@@ -4,7 +4,11 @@
 
 UI test automation in Java 11, demonstrating how to implement a scalable, flexible framework for running UI tests in parallel.
 Supporting different browsers.
-Plus saving useful visual test reports and web HTTP traffic records.
+Plus saving useful visual test reports and web HTTP traffic records.  
+
+For comparison reasons I have 2 projects containing the same tests, with different implementation:
+*1 with Serenity BDD [project](https://github.com/PietroSassone/selenium-serenity-demo) in Java. 
+*2 With Selenide Java [project](https://github.com/PietroSassone/java-selenide-demo). 
 
 *Note:* The test cases implemented are not extensive. Just a selection of all possible scenarios.
 For a small demo.
@@ -71,13 +75,14 @@ Open a terminal and type:
     ```
     
 Supported arguments:  
-| argument name     | supported values             | default value | description                                                |
-| ----------------- | ---------------------------- | ------------- | ---------------------------------------------------------- |
-| browserName       | chrome, firefox, edge, opera | chrome        | tells the tests which browser to use for the tests         |
-| headless          | true, false                  | false         | sets whether the tests should run with GUI enabled         |
-| rerun.tests.count | any positive integer         | 1             | sets how many times to try rerunning each failed test case |
-| platformToSet     | desktop, iPhoneX, nexus7     | desktop       | sets the platform/device to be emulated by the webDriver   |
+| argument name     | supported values                           | default value | description                                                |
+| ----------------- | ------------------------------------------ | ------------- | ---------------------------------------------------------- |
+| browserName       | chrome, firefox, edge, opera, browserstack | chrome        | tells the tests which browser to use                       |
+| headless          | true, false                                | false         | sets whether the tests should run with GUI enabled         |
+| rerun.tests.count | any positive integer                       | 1             | sets how many times to try rerunning each failed test case |
+| platformToSet     | desktop, iPhoneX, nexus7                   | desktop       | sets the platform/device to be emulated by the webDriver   |
 
+Plus some arguments only for BrowserStack. See below in point 7.  
 The framework supports Chrome, Firefox, Edge, Opera browsers for testing.
 The headless mode in selenium is not supported in Opera. Only the other 3 browsers.
 When trying to start the tests with Opera in headless mode, they'll launch in standard mode.
@@ -121,3 +126,33 @@ Example command to run the tests with MS Edge Driver while emulating the Nexus 7
     ```
     mvn clean verify -DbrowserName=edge -platformToSet=nexus7
     ```
+    
+**7. BrowserStack integration**  
+
+The project also demonstrates browserstack integration.  
+To run the test cases on BrowserStack, we need to set our unique BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY on our machine as system environment variables.  
+
+To run the tests with BrowserStack desktop or device, add the ```-DbrowserName=browserstack``` param to the mvn verify command.  
+To customize the OS, browser and mobile device, use the arguments listed below in the table.  
+To get different values for these arguments, check out the [BrowserStack capability generator](https://www.browserstack.com/docs/onboarding/java/getting-started#run-sample-build).
+
+Supported arguments:  
+| argument name              | supported values             | default value | description                                                       |
+| -------------------------- | ---------------------------- | ------------- | ----------------------------------------------------------------- |
+| browserStackBrowserName    | see the BrowserStack website | chrome        | tells BrowserStack which browser                                  |
+| browserStackBrowserVersion | see the BrowserStack website | latest        | sets the desired version of the browser                           |
+| browserStackOS             | see the BrowserStack website | Windows       | sets the OS for the tests                                         |
+| browserStackOSVersion      | see the BrowserStack website | 11            | sets the OS version for the tests                                 |
+| browserStackPlatform       | ios, android                 | -             | sets the platform if the tests should run on a device             |
+| browserStackDevice         | see the BrowserStack website | -             | sets the device name, should be paired with browserStackPlatform  |
+
+Example command to run the tests with BrowserStack on Edge & OS X:  
+    ```
+    mvn clean verify -DbrowserName=browserstack -DbrowserStackBrowserName=Edge "-DbrowserStackOS=OS X" "-DbrowserStackOSVersion=Big Sur"
+    ```
+    
+Example command to run the tests with BrowserStack on Google Pixel 6 & Android 12.0:  
+    ```
+    mvn clean verify -DbrowserName=browserstack -DbrowserStackPlatform=Android -DbrowserStackOSVersion=12.0 "-DbrowserStackDevice=Google Pixel 6"
+    ```
+ 
