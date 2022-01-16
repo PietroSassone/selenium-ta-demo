@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.example.selenium.ta.demo.factory.SeleniumFactory;
 import com.example.selenium.ta.demo.pageobject.ParentPageObject;
+import lombok.Getter;
 
+@Getter
 @Component
 public class DemoHomePage extends ParentPageObject {
 
@@ -56,16 +58,8 @@ public class DemoHomePage extends ParentPageObject {
         return certificationTrainingImage.isDisplayed();
     }
 
-    public List<WebElement> getWidgets() {
-        return widgets;
-    }
-
     public boolean isFooterVisible() {
         return footer.isDisplayed();
-    }
-
-    public WebElement getFooter() {
-        return footer;
     }
 
 }
