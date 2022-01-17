@@ -68,7 +68,7 @@ public class SeleniumFactory {
     private static final String BROWSERSTACK_USERNAME = System.getenv("BROWSERSTACK_USERNAME");
     private static final String BROWSERSTACK_ACCESS_KEY = System.getenv("BROWSERSTACK_ACCESS_KEY");
     private static final String BROWSERSTACK_URL = String.format("https://%s:%s@hub-cloud.browserstack.com/wd/hub", BROWSERSTACK_USERNAME, BROWSERSTACK_ACCESS_KEY);
-    private static final Set<String> MOBILE_PLATFORMS = Set.of("Android", "Ios");
+    private static final Set<String> MOBILE_PLATFORMS = Set.of("Android", "IOS");
 
     @Value("${browserName:chrome}")
     private String browserName;
