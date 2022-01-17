@@ -139,11 +139,11 @@ To get different values for these arguments, check out the [BrowserStack capabil
 Supported arguments:  
 | argument name              | supported values             | default value | description                                                       |
 | -------------------------- | ---------------------------- | ------------- | ----------------------------------------------------------------- |
-| browserStackBrowserName    | see the BrowserStack website | chrome        | tells BrowserStack which browser                                  |
+| browserStackBrowserName    | see the BrowserStack website | chrome        | tells BrowserStack which browser to use                           |
 | browserStackBrowserVersion | see the BrowserStack website | latest        | sets the desired version of the browser                           |
 | browserStackOS             | see the BrowserStack website | Windows       | sets the OS for the tests                                         |
 | browserStackOSVersion      | see the BrowserStack website | 11            | sets the OS version for the tests                                 |
-| browserStackPlatform       | ios, android                 | -             | sets the platform if the tests should run on a device             |
+| browserStackPlatform       | IOS, Android                 | -             | sets the platform if the tests should run on a device             |
 | browserStackDevice         | see the BrowserStack website | -             | sets the device name, should be paired with browserStackPlatform  |
 
 Example command to run the tests with BrowserStack on Edge & OS X:  
