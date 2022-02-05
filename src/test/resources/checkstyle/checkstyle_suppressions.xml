@@ -3,6 +3,8 @@
 <suppressions>
     <suppress checks="LineLength" files=".*.java" />
     <suppress checks="DesignForExtension" files=".*.java" />
-    <suppress checks="HiddenField" files=".*PageObject.java" />
+    <suppress checks="HiddenField" files=".*.java" />
     <suppress checks="RedundantModifier" files="Application.java" />
+    <suppress checks="MagicNumber" files="WebTablesStepDefinitions.java" />
+    <suppress checks="TypeName" files=".*feature001_run001_IT.java" />
 </suppressions>

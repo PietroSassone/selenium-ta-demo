@@ -45,7 +45,7 @@ public class JsonDeserializerForPlatform extends StdDeserializer<Platform> {
     }
 
     public Platform readJsonFileToPlatform(final String targetPlatform) {
-        try (final InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(String.format(SETTINGS_FILES_PATH, targetPlatform))) {
+        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(String.format(SETTINGS_FILES_PATH, targetPlatform))) {
             return new ObjectMapper().readValue(inputStream, Platform.class);
 
         } catch (IOException e) {

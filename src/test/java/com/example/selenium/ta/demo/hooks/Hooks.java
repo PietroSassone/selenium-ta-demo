@@ -23,7 +23,7 @@ public class Hooks {
     public void cleanUp(final Scenario scenario) {
         webTrafficRecorder.saveHttpArchiveToFile(scenario);
 
-        if (scenario.isFailed()){
+        if (scenario.isFailed()) {
             screenshotSaver.addScreenshotToCucumberScenario(scenario, seleniumFactory.getExistingWebDriver());
         }
 
