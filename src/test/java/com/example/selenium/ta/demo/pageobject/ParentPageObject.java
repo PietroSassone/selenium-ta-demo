@@ -38,6 +38,7 @@ public class ParentPageObject {
 
     /**
      * Base constructor to initialize all page objects extending this class.
+     * @param seleniumFactory the factory that sets up the driver used by the page objects.
      */
     public ParentPageObject(final SeleniumFactory seleniumFactory) {
         this.seleniumFactory = seleniumFactory;
@@ -49,6 +50,8 @@ public class ParentPageObject {
      * Additional constructor to initialize child elements of page objects.
      * Stored in separate classes.
      * For implementing the Composition of Page Objects design pattern.
+     * @param parentElement the element which is the parent of the smaller page objects.
+     * @param seleniumFactory the factory that sets up the web driver.
      */
     public ParentPageObject(final SeleniumFactory seleniumFactory, final WebElement parentElement) {
         this.seleniumFactory = seleniumFactory;
@@ -62,6 +65,7 @@ public class ParentPageObject {
 
     /**
      * Scrolling to a given web element.
+     * @param webElement the element to scroll to.
      */
     public void moveToElement(final WebElement webElement) {
         waitForElementToBeClickable(webElement);
@@ -71,6 +75,7 @@ public class ParentPageObject {
     /**
      * Scrolling to a given web element. In case of some web elements, the regular scrolling doesn't work.
      * Especially useful for firefox.
+     * @param webElement the element to scroll to.
      */
     public void moveToElementWithJs(final WebElement webElement) {
         ((JavascriptExecutor) driver).executeScript(SCROLL_INTO_VIEW_SCRIPT, webElement);
