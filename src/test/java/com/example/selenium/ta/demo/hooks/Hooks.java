@@ -6,6 +6,7 @@ import com.example.selenium.ta.demo.factory.SeleniumFactory;
 import com.example.selenium.ta.demo.util.ScreenshotSaver;
 import com.example.selenium.ta.demo.util.WebTrafficRecorder;
 import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 
 public class Hooks {
@@ -18,6 +19,11 @@ public class Hooks {
 
     @Autowired
     private WebTrafficRecorder webTrafficRecorder;
+
+    @Before
+    public void beforeScenario() {
+        seleniumFactory.createAndGetWebDriver();
+    }
 
     @After
     public void cleanUp(final Scenario scenario) {
