@@ -124,7 +124,7 @@ Example command to run the tests with MS Edge Driver in headless mode:
 
 Example command to run the tests with MS Edge Driver while emulating the Nexus 7 tablet browser:  
     ```
-    mvn clean verify -DbrowserName=edge -platformToSet=nexus7
+    mvn clean verify -DbrowserName=edge -DplatformToSet=nexus7
     ```
     
 **7. BrowserStack integration**  
