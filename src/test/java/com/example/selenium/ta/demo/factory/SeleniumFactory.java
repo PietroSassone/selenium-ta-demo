@@ -146,7 +146,6 @@ public class SeleniumFactory {
             try {
                 webDriver.close();
                 webDriver.quit();
-                webDriver = null;
             } catch (Exception e) {
                 LOGGER.info("Browser already closed, did not need to quit. Exception: {}", e.getMessage());
             }
@@ -282,7 +281,6 @@ public class SeleniumFactory {
 
         // Needed for the test run to appear on the Browserstack dashboard
         desiredCapabilities.setCapability("build", "browserstack-build-1");
-        System.out.println(desiredCapabilities);
         WebDriver driver;
         try {
             driver = new RemoteWebDriver(new URL(BROWSERSTACK_URL), desiredCapabilities);
