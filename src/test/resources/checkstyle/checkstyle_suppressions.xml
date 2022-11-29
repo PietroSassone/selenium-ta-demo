@@ -7,4 +7,5 @@
     <suppress checks="RedundantModifier" files="Application.java" />
     <suppress checks="MagicNumber" files="WebTablesStepDefinitions.java" />
     <suppress checks="TypeName" files=".*feature001_run001_IT.java" />
+    <suppress checks="VisibilityModifier" files=".*BaseDriverCreator.java" />
 </suppressions>
